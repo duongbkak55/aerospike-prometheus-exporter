@@ -281,8 +281,11 @@ func (o *Observer) HealthDatabase() error {
 }
 
 func (o *Observer) isConnected(retryCount int) error {
+	var err error
 	if o.conn == nil || !o.conn.IsConnected() {
-		return errors.New("AER Not Connected")
+		// Create new connection
+		o.conn, err = o.newConnection()
+		return err
 	}
 	return nil
 }
