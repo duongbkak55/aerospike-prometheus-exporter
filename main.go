@@ -94,7 +94,7 @@ func main() {
 
 	// Handle "/health" url
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte(`OK`))
+		w.Write([]byte("{\"status\": \"UP\"}"))
 	})
 
 	// Handle "/healthDatabase" url
@@ -102,9 +102,9 @@ func main() {
 		err = observer.HealthDatabase()
 		if err != nil {
 			w.WriteHeader(503)
-			w.Write([]byte("503 Service Unavailable"))
+			w.Write([]byte("{\"status\": \"DOWN\"}"))
 		} else {
-			w.Write([]byte(`OK`))
+			w.Write([]byte("{\"status\": \"UP\"}"))
 		}
 	})
 
