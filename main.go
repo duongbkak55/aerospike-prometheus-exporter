@@ -97,6 +97,17 @@ func main() {
 		w.Write([]byte(`OK`))
 	})
 
+	// Handle "/healthDatabase" url
+	mux.HandleFunc("/healthDatabase", func(w http.ResponseWriter, r *http.Request) {
+		err = observer.HealthDatabase()
+		if err != nil {
+			w.WriteHeader(503)
+			w.Write([]byte("503 Service Unavailable"))
+		} else {
+			w.Write([]byte(`OK`))
+		}
+	})
+
 	// Handle "/" root url
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`<html>

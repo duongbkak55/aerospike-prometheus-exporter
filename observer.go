@@ -271,3 +271,18 @@ func (o *Observer) refresh(ch chan<- prometheus.Metric) (map[string]string, erro
 
 	return rawMetrics, nil
 }
+
+func (o *Observer) HealthDatabase() error {
+	log.Debugf("HealthDatabase node %s", fullHost)
+
+	// info request for first set of info keys
+	err := o.isConnected(retryCount)
+	return err
+}
+
+func (o *Observer) isConnected(retryCount int) error {
+	if o.conn == nil || !o.conn.IsConnected() {
+		return errors.New("AER Not Connected")
+	}
+	return nil
+}
